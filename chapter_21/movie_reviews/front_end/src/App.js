@@ -1,12 +1,13 @@
-import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import AddReview from "./components/add-review";
-import MoviesList from "./components/movies-list";
-import Movie from "./components/movie";
-import Login from "./components/login";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import React from 'react'
+import { Switch, Route, Link } from "react-router-dom"
+import "bootstrap/dist/css/bootstrap.min.css"
+import AddReview from "./components/add-review"
+import MoviesList from "./components/movies-list"
+import Movie from "./components/movie"
+import Login from "./components/login"
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+
 
 function App() {
   const [user, setUser] = React.useState(null)
@@ -36,6 +37,7 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+
       <Switch>
         <Route exact path={["/", "/movies"]} component={MoviesList}>
         </Route>
@@ -56,4 +58,3 @@ function App() {
   );
 }
 export default App;
-
