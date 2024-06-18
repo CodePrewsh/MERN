@@ -9,7 +9,6 @@ export default class ReviewsController {
         name: req.body.name,
         _id: req.body.user_id,
       };
-
       const date = new Date();
       const ReviewResponse = await ReviewsDAO.addReview(
         movieId,
@@ -39,9 +38,19 @@ export default class ReviewsController {
       }
       if (ReviewResponse.modifiedCount === 0) {
         throw new Error(
-          "unable to update review. User may not beoriginal poster"
+          "unable to update review. User may not be original poster"
         );
       }
+      res.json({ status: "success " });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+  static async apiDeleteReview(req, res, next) {
+    try {
+      const reviewId = req.body.review_id;
+      const userId = req.body.user_id;
+      const ReviewResponse = await ReviewsDAO.deleteReview(reviewId, userId);
       res.json({ status: "success " });
     } catch (e) {
       res.status(500).json({ error: e.message });
