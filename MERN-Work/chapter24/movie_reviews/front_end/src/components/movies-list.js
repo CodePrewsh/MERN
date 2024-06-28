@@ -8,39 +8,46 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 
+// MoviesList is a functional component that fetches and displays a list of movies,
+// and allows users to search movies by title or rating.
 const MoviesList = props => {
 
-  const [movies, setMovies] = useState([])
-  const [searchTitle, setSearchTitle] = useState("")
-  const [searchRating, setSearchRating] = useState("")
-  const [ratings, setRatings] = useState(["All Ratings"])
-  const [currentPage, setCurrentPage] = useState(0)
-  const [entriesPerPage, setEntriesPerPage] = useState(0)
-  const [currentSearchMode, setCurrentSearchMode] = useState("")
+  // State variables to manage the data and user inputs
+  const [movies, setMovies] = useState([]) // List of movies
+  const [searchTitle, setSearchTitle] = useState("") // Search query for movie title
+  const [searchRating, setSearchRating] = useState("") // Search query for movie rating
+  const [ratings, setRatings] = useState(["All Ratings"]) // List of available ratings
+  const [currentPage, setCurrentPage] = useState(0) // Current page for pagination
+  const [entriesPerPage, setEntriesPerPage] = useState(0) // Number of entries per page
+  const [currentSearchMode, setCurrentSearchMode] = useState("") // Current search mode (by title or by rating)
 
-  useEffect(() =>{
-  setCurrentPage(0)
-  },[currentSearchMode])
+  // Reset to the first page whenever the search mode changes
+  useEffect(() => {
+    setCurrentPage(0)
+  }, [currentSearchMode])
 
-  useEffect(() =>{
-  retrieveNextPage()
-  },[currentPage])
+  // Fetch the next page of results whenever the current page changes
+  useEffect(() => {
+    retrieveNextPage()
+  }, [currentPage])
 
+  // Determine which fetch function to call based on the current search mode
   const retrieveNextPage = () => {
-  if(currentSearchMode === "findByTitle")
-  findByTitle()
-  else if(currentSearchMode === "findByRating")
-  findByRating()
-  else
-  retrieveMovies()
+    if(currentSearchMode === "findByTitle")
+      findByTitle()
+    else if(currentSearchMode === "findByRating")
+      findByRating()
+    else
+      retrieveMovies()
   }
 
+  // Fetch all movies and available ratings when the component mounts
   useEffect(() => {
     retrieveMovies()
     retrieveRatings()
   }, [])
 
-
+  // Fetch all movies
   const retrieveMovies = () => {
     setCurrentSearchMode("")
     MovieDataService.getAll()
@@ -54,11 +61,13 @@ const MoviesList = props => {
         console.log(e)
       })
   }
+
+  // Fetch available ratings
   const retrieveRatings = () => {
     MovieDataService.getRatings()
       .then(response => {
         console.log(response.data)
-        //start with 'All ratings' if user doesn't specify any ratings
+        // Start with 'All Ratings' if user doesn't specify any ratings
         setRatings(["All Ratings"].concat(response.data))
       })
       .catch(e => {
@@ -66,15 +75,19 @@ const MoviesList = props => {
       })
   }
 
+  // Update the search title state when the user types in the search box
   const onChangeSearchTitle = e => {
     const searchTitle = e.target.value
-    setSearchTitle(searchTitle);
-  }
-  const onChangeSearchRating = e => {
-    const searchRating = e.target.value
-    setSearchRating(searchRating);
+    setSearchTitle(searchTitle)
   }
 
+  // Update the search rating state when the user selects a rating
+  const onChangeSearchRating = e => {
+    const searchRating = e.target.value
+    setSearchRating(searchRating)
+  }
+
+  // Generic find function to search movies by title or rating
   const find = (query, by) => {
     MovieDataService.find(query, by, currentPage)
       .then(response => {
@@ -85,20 +98,22 @@ const MoviesList = props => {
         console.log(e)
       })
   }
+
+  // Search movies by title
   const findByTitle = () => {
     setCurrentSearchMode("findByTitle")
     find(searchTitle, "title")
   }
+
+  // Search movies by rating
   const findByRating = () => {
     setCurrentSearchMode("findByRating")
     if (searchRating === "All Ratings") {
       retrieveMovies()
-    }
-    else {
+    } else {
       find(searchRating, "rated")
     }
   }
-
 
   return (
     <div className="App">
@@ -146,7 +161,7 @@ const MoviesList = props => {
         <Row>
           {movies.map((movie) => {
             return (
-              <Col>
+              <Col key={movie._id}>
                 <Card style={{ width: '18rem' }}>
                   <Card.Img src={movie.poster + "/100px180"} />
                   <Card.Body>
@@ -174,5 +189,5 @@ const MoviesList = props => {
     </div>
   );
 }
-export default MoviesList;
 
+export default MoviesList;
