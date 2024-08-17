@@ -29,7 +29,7 @@ app.use("/graphql", graphqlHTTP({
 }));
 
 
-mongoose.connect(`mongodb+srv://bhembepreciouspt:thandeka123@mern.5axes9f.mongodb.net/?retryWrites=true&w=majority&appName=MERN`)
+mongoose.connect(`mongodb+srv://thandeka:prewsh@cluster0.j6own.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
    .then(() => {
       app.listen(port, () => {
          console.log(`Server started listening at http://localhost:${port}`)

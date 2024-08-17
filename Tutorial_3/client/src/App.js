@@ -1,15 +1,17 @@
-import { Route, Routes } from "react-router-dom";
-import { Login, Signup } from "./pages";
-import Home from "./pages/Home";
+import React, { useState } from 'react';
+import Login from './Login';
+import HelloWorld from './HelloWorld';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      {isLoggedIn ? <HelloWorld /> : <Login onLogin={handleLogin} />}
     </div>
   );
 }

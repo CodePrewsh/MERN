@@ -1,0 +1,5 @@
+1.Install 2 packages expressgraphql and graphql in brackets;
+2.Use the expressgraphql as middleware with "/graphql" as the first route and express-graphql variable as the second argument and as a function parsed an json inside
+3.Inside the object, there should be a schema which contains a query and mutation and the type of data we are expecting in each operation
+3.Query works as a get method and Mutation works as a post, put, delete request in REST language
+4.
